@@ -1,0 +1,16 @@
+services:
+  mongo:
+    image: mongo:8
+    container_name: talentbridge-mongo
+    ports: ["27017:27017"]
+    volumes: [talentbridge_data:/data/db]
+  backend:
+    build: ./backend
+    ports: ["5001:5001"]
+    environment:
+      MONGO_URI: mongodb://mongo:27017/
+      MONGO_DB: talentbridge
+      JWT_SECRET_KEY: change-this-in-development
+    depends_on: [mongo]
+volumes:
+  talentbridge_data:
